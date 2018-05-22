@@ -2,7 +2,7 @@
 This Application will obfuscate your .NET Assembly
 
 # Features
--Symbol Renaming
+-Symbol Renaming <br />
 -AntiILDasm
 -Constant Protection
 -Constant Mutation
