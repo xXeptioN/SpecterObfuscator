@@ -10,7 +10,7 @@ This Application will obfuscate your .NET Assembly
 
 
 # Information
-This is a free Obfuscator, so you won't get any support.
+This is a free Obfuscator, so you'll only get support on my discord https://discord.gg/JcnfV2p.
 It isn't that safe. If you search a safe solution come and view : https://discord.gg/JcnfV2p
 
 
