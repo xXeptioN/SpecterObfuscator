@@ -1,5 +1,6 @@
 ﻿using dnlib.DotNet;
 using dnlib.DotNet.Writer;
+using Microsoft.Win32;
 using Obfuscator.Internal;
 using Obfuscator.Internal.Classes;
 using System;
@@ -40,24 +41,34 @@ namespace Obfuscator
         #endregion
         private BrushConverter bc = new BrushConverter();
         private List<string> assemblys = new List<string>();
+        private Dictionary<string, string> dict =
+           new Dictionary<string, string>();
 
-        
         private void btnObf_Click(object sender, RoutedEventArgs e)
         {
             foreach (var item in lvassemblys.Items)
             {
                 var current = item as LvAssembly;
-              
-                AssemblyDef asm = AssemblyDef.Load(current.Path);
-                SpectreContext spctx = new SpectreContext(asm);
-                var rule = new Rule(enable_renamer, enable_antiildasm, enable_constantprotection, enable_constantmutation);
-                new Core(spctx,rule).DoObfuscation();
-                var opts = new ModuleWriterOptions(spctx.ManifestModule);
-                opts.Logger = DummyLogger.NoThrowInstance;
-                asm.Write(current.Path + "_obf.exe", opts);
+                try
+                {
+                    AssemblyDef asm = AssemblyDef.Load(current.Path);
+                    SpectreContext spctx = new SpectreContext(asm);
+                    var rule = new Rule(enable_renamer, enable_antiildasm, enable_constantprotection, enable_constantmutation);
+                    new Core(spctx, rule).DoObfuscation();
+                    var opts = new ModuleWriterOptions(spctx.ManifestModule);
+                    opts.Logger = DummyLogger.NoThrowInstance;
+                    foreach (var path in dict)
+                    {
+                        if(path.Key.Equals(current.Path))
+                        asm.Write(path.Value, opts);
+                    }
+                }
+                catch (Exception) { throw; }
 
             }
         }
+
+   
 
         private void lvassemblys_Drop(object sender, DragEventArgs e)
         {
@@ -77,6 +88,7 @@ namespace Obfuscator
             if (item != null && item.IsSelected)
             {
                 btnDel.IsEnabled = true;
+                btnOfd.IsEnabled = true;
             }
         }
 
@@ -139,6 +151,18 @@ namespace Obfuscator
                 btnRenamer.Background = Brushes.Orange;
                 enable_renamer = true;
             }
+        }
+
+        private void btnOfd_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            if(sfd.ShowDialog() == true)
+            {
+                var current = lvassemblys.SelectedItem as LvAssembly;
+                dict.Add(current.Path, sfd.FileName);
+                
+            }
+
         }
     }
 }
