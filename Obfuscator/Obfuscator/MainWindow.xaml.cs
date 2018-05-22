@@ -89,6 +89,12 @@ namespace Obfuscator
             {
                 btnDel.IsEnabled = true;
                 btnOfd.IsEnabled = true;
+                foreach (var path in dict)
+                {
+                    var current = lvassemblys.SelectedItem as LvAssembly;
+                    if (path.Key.Equals(current.Path))
+                        tbout.Text = path.Value;
+                }
             }
         }
 
@@ -160,7 +166,6 @@ namespace Obfuscator
             {
                 var current = lvassemblys.SelectedItem as LvAssembly;
                 dict.Add(current.Path, sfd.FileName);
-                
             }
 
         }
