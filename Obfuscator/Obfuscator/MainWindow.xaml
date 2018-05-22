@@ -1,0 +1,107 @@
+﻿<Window x:Name="w" x:Class="Obfuscator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Obfuscator"
+        mc:Ignorable="d"
+        Title="Specter Obfuscator" Height="450" Width="800" Background="#FF131313" ResizeMode="NoResize">
+    <Grid>
+        <TabControl Background="#FF131313">
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Grid Name="Panel">
+                                    <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"/>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Panel" Property="Background" Value="Orange" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="False">
+                                        <Setter TargetName="Panel" Property="Background" Value="#FF252424" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+            <TabItem Header="Dashboard" Foreground = "White">
+                <Grid HorizontalAlignment="Left" Height="394" Margin="0,-1,-5,-3" VerticalAlignment="Top" Width="789">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="519*"/>
+                        <ColumnDefinition Width="271*"/>
+                    </Grid.ColumnDefinitions>
+                    <ListView  AllowDrop="True" x:Name="lvassemblys"  Background="#FF252424" HorizontalAlignment="Left" Height="322" VerticalAlignment="Top" Width="761" Foreground="White" BorderBrush="#FF252424" Margin="6,56,0,0" Drop="lvassemblys_Drop" Grid.ColumnSpan="2">
+                        <ListView.View>
+                            <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle1}">
+                                <GridViewColumn Header="Path" DisplayMemberBinding="{Binding Path}"/>
+                            </GridView>
+                        </ListView.View>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_PreviewMouseLeftButtonDown" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <Label Content="Label" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    </ListView>
+                    <Label Content="Drag &amp; Drop Assemblys here:" HorizontalAlignment="Left" Margin="6,15,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontSize="14"/>
+                    <Button x:Name="btnDel" FontSize="14" Background ="Orange" Foreground="White" Content="DEL" HorizontalAlignment="Left" Margin="164.5,17,0,0" VerticalAlignment="Top" Width="84.5" Height="23.5" Padding="1" UseLayoutRounding="False" Grid.Column="1" IsEnabled="False" Click="btnDel_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Settings" Foreground="White" >
+                <Grid HorizontalAlignment="Left" Height="398" Margin="0,-2,-2,-6" VerticalAlignment="Top" Width="786" RenderTransformOrigin="0.413,0.65">
+                    <TabControl TabStripPlacement="Left" Background="#FF131313" HorizontalAlignment="Left" Height="388" VerticalAlignment="Top" Width="776">
+                        <TabItem Foreground="White" Header="Assembly">
+                            <StackPanel HorizontalAlignment="Left" Height="377" Margin="4,0,0,0" VerticalAlignment="Top" Width="687">
+                                <Button x:Name="btnRenamer" Style="{StaticResource SpecterButton}" Margin="8,5,12,5" Content="Enable Renamer" Background="#FF252424" Click="btnRenamer_Click"/>
+
+                            </StackPanel>
+                        </TabItem>
+                        <TabItem Foreground="White" Header="Constants" Background="#FF131313">
+                            <StackPanel HorizontalAlignment="Left" Height="377" Margin="4,0,0,0" VerticalAlignment="Top" Width="687">
+                                <Button x:Name="btnEnableConstantProtection" Style="{StaticResource SpecterButton}" Margin="8,5,12,5" Content="Enable Constant Protection" Background="#FF252424" Click="btnEnableConstantProtection_Click"/>
+                                <Button x:Name="btnEnableConstantMutation" Style="{StaticResource SpecterButton}" Margin="8,5,12,5" Content="Enable Constant Mutation" Background="#FF252424" Click="btnEnableConstantMutation_Click"/>
+
+                            </StackPanel>
+                        </TabItem>
+                        <TabItem Foreground="White" Header="Analysis" Background="#FF131313">
+                            <StackPanel HorizontalAlignment="Left" Height="377" Margin="4,0,0,0" VerticalAlignment="Top" Width="687">
+                                <Button x:Name="btnAntiILDasm" Style="{StaticResource SpecterButton}" Margin="8,5,12,5" Content="Enable AntiILDasm" Click="btnAntiILDasm_Click" Background="#FF252424"/>
+
+                            </StackPanel>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Obfuscate" Foreground="White" >
+                <WrapPanel HorizontalAlignment="Left" Height="392" Margin="0,-1" VerticalAlignment="Top" Width="784">
+                    <RichTextBox x:FieldModifier="public" x:Name="rtlog" HorizontalAlignment="Left" Height="354" VerticalAlignment="Top" Width="434" Background="#FF252424" Foreground="Orange" Margin="20,20,0,30" FontSize="10" FontFamily="Simplified Arabic Fixed">
+                        <FlowDocument>
+                            <Paragraph>
+                                <Run Text=""/>
+                            </Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
+                    <Button VerticalAlignment="Top"  x:Name="btnObf" Style="{StaticResource SpecterButton}" Margin="20" Content="Obfuscate" Background="#FF252424" Height="62" Width="286" RenderTransformOrigin="0.5,0.5" Padding="10,0,0,0" Click="btnObf_Click">
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="-0.11"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                    </Button>
+                </WrapPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
