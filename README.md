@@ -1,4 +1,4 @@
-# SpectreObfuscator
+# SpecterObfuscator
 This Application will obfuscate your .NET Assembly
 
 # Features
