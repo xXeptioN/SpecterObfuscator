@@ -3,9 +3,9 @@ This Application will obfuscate your .NET Assembly
 
 # Features
 -Symbol Renaming <br />
--AntiILDasm
--Constant Protection
--Constant Mutation
+-AntiILDasm<br />
+-Constant Protection<br />
+-Constant Mutation<br />
 
 # Information
 This is a free Obfuscator, so you won't get any support.
